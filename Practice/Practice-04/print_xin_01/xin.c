@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void PrintLine(int xin_num){
+void PrintLine(int xin_num,int len ){	
+	for(int i = (len - xin_num) / 2; i > 0; i--){
+		printf(" ");
+	}
 	for(int i = 0 ; i < xin_num ; i++){
 		printf("*");
 	}
@@ -10,10 +13,10 @@ void PrintLine(int xin_num){
 
 void PrintXin(int len){
 	for(int line_xin = 1 ; line_xin <= len ; line_xin += 2){
-		PrintLine(line_xin);
+		PrintLine(line_xin, len);
 	}
 	for(int line_xin = len - 2 ; line_xin >= 1 ; line_xin -=2){
-		PrintLine(line_xin);
+		PrintLine(line_xin, len);
 	} 
 }
 
