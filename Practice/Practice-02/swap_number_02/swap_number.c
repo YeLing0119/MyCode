@@ -10,13 +10,6 @@ void swap_add(int* a , int* b )
 	*a = *a - *b ;
 }
 
-//根据乘除调换
-void swap_mul(int* a , int* b)
-{
-	*a = *a * *b ;
-	*b = *a / *b ;
-	*a = *a / *b ;
-}
 
 int main()
 {
