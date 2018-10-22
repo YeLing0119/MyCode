@@ -53,16 +53,14 @@ void ComputerPlay(){
 	printf("电脑落子中...\n");
 	sleep(2);
 	while (1){
-		srand((int)time(0));
+		srand((unsigned int)time(NULL));
 		row = rand() % 3;
 		col = rand() % 3;
-		if (g_chess_board[row][col] != ' ')
-			continue;
-		else{
+		if (g_chess_board[row][col] == ' '){
 			g_chess_board[row][col] = 'O';
 			break;
 		}
-	}
+	}	
 }
 
 int IsFull(){
@@ -98,12 +96,13 @@ char CheckWinner(){
 		}
 	}
 	//3.检查两个对角线是否都一样
-
+	//3.1正对角线
 	if (g_chess_board[1][1] == g_chess_board[0][0]
 		&& g_chess_board[1][1] == g_chess_board[2][2]
 		&& g_chess_board[1][1] != ' '){
 		return g_chess_board[1][1];
 	}
+	//3.2反对角线
 	if(g_chess_board[1][1] == g_chess_board[0][2]
 		&& g_chess_board[1][1] == g_chess_board[2][0]
 		&& g_chess_board[1][1] != ' '){
@@ -112,12 +111,10 @@ char CheckWinner(){
 
 	//4.检查是否和棋
 	if (IsFull()){
-		return_char = 'H';
-		return return_char;
+		return 'H';
 	}
 	//5、没有以上情况返回N
-	return_char = 'N';
-	return return_char;
+	return 'N';
 }
 
 void RefreshSrceen(){
