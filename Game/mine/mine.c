@@ -1,14 +1,5 @@
 ﻿#include "mine.h"
 
-//void Init(char mine[][COL], char show[][COL], int _row, int _col){
-//	for (int count = 0; count < _col; count++){
-//		memset(mine, '0', sizeof(mine));
-//	}
-//	for (int count = 0; count < _col; count++){
-//		memset(show, '*', sizeof(show));
-//	}
-//}
-
 int GetRandomNum(int _start, int _end){
 	return rand() % (_end - _start + 1) + 1;
 }
@@ -30,24 +21,23 @@ void CreateMine(char mine[][COL], int _row, int _col){
 	}
 }
 
-
 void PrintBoard(char board[][COL], int _row, int _col){
 	printf("   ");
 	for (int i = 1; i < 11; i++){
-		printf("   %d    ", i);
+		printf("   %d   ", i);
 	}
 	printf("\n");
 	printf("  ");
 	for (int i = 0; i < 10; i++){
 		if (i == 0){
-			printf("┌───┬");
+			printf("┌──────┬");
 			continue;
 		}
 		if (i == 9){
-			printf("───┐");
+			printf("──────┐");
 			continue;
 		}
-		printf("───┬", i);
+		printf("──────┬");
 	}
 	printf("\n");
 	for (int i = 1; i <= _row - 2; i++){
@@ -76,41 +66,61 @@ void PrintBoard(char board[][COL], int _row, int _col){
 		if (i != 10){
 			for (int j = 0; j < 10; j++){
 				if (j == 0){
-					printf("  ├───┼");
+					printf("  ├──────┼");
 					continue;
 				}
 				if (j == 9){
-					printf("───┤");
+					printf("──────┤");
 					continue;
 				}
-				printf("───┼");
+				printf("──────┼");
 			}
 			printf("\n");
 		}
 	}
 	for (int i = 0; i < 10; i++){
 		if (i == 0){
-			printf("  └───┴");
+			printf("  └──────┴");
 			continue;
 		}
 		if (i == 9){
-			printf("───┘");
+			printf("──────┘");
 			continue;
 		}
-		printf("───┴", i);
+		printf("──────┴");
 	}
 	printf("\n");
-	printf("请输入要点击的坐标<1~10>:");
+	printf("请输入要点击的坐标<1~10>:\n");
 }
 
-void Click(char mine[][COL],char  show[][COL]){
+void Click(char mine[][COL], char show[][COL]){
+	//int count_input = 0;		//记录用户正确输入的次数
 	int is_win = 0;		//记录没有踩到雷的个数
 	int x = 0;
 	int y = 0;
 	while (1){
 		scanf("%d %d", &x, &y);
-		if (x < 1 || x>10 || y < 1 || y > 10){
-			printf("你的输入有误,请重新输入：");
+		if (x < 1 || x > 10 || y < 1 || y > 10){
+			printf("你的输入有误,请重新输入：\n");
+			fflush(stdin);
+			continue;
+		}
+		fflush(stdin);
+		if (is_win == 0){
+			mine[x][y] = 'f';
+			CreateMine(mine, ROW, COL);
+			int mine_num = AroundMine(mine, x, y);
+			if (mine_num == 0){
+				show[x][y] = ' ';
+			}
+			else{
+				show[x][y] = mine_num + '0';
+			}
+			is_win++;
+			CheckAround(mine, show, x, y, &is_win);
+			system("cls");
+			PrintBoard(mine, ROW, COL);
+			PrintBoard(show, ROW, COL);
 			continue;
 		}
 		if (show[x][y] != '*'){
@@ -118,20 +128,54 @@ void Click(char mine[][COL],char  show[][COL]){
 			continue;
 		}
 		if (mine[x][y] == '1'){
-			printf("很遗憾，你点到雷了");
+			printf("很遗憾，你点到雷了!\n");
+			printf("游戏结束!\n");
 			break;
 		}
-		int num_mine = AroundMine(mine, x, y);
-		show[x][y] = num_mine+'0';
-		is_win++;
+		int mine_num = AroundMine(mine, x ,y);
+		if (mine_num == 0){
+			show[x][y] = ' ';
+		}else{
+			show[x][y] = mine_num + '0';
+		}
+		is_win++; 
+		if (show[x][y] == ' '){
+			CheckAround(mine, show, x, y, &is_win);
+		}
 		if ((100 - is_win) == MINE_NUM){		//如果条件成立，说明玩家已经赢了
 			printf("你赢了\n");
 			break;
 		}
+		system("cls");
 		PrintBoard(mine, ROW, COL);
 		PrintBoard(show, ROW, COL);
-
 	}
+}
+
+int CheckAround(char mine[][ROW], char show[][COL], int x, int y, int *is_win){
+	int mine_num = -1;
+	if (x < 1 || x>10 || y < 1 || y > 10){
+		return 0;
+	}
+	for (int i = x - 1; i <= x + 1; i++){
+		for (int j = y - 1; j <= y + 1; j++){
+			//不检测超过棋盘范围和其本身
+			if ((i == x && j == y) || i > 10 || i < 1 || j > 10 || j < 1){
+				continue;
+			}
+			//不检测已经被点击过或者展开过的
+			if (show[i][j] != '*'){
+				continue;
+			}
+			//剩下的本身周围是没有被展开过的
+			if (AroundMine(mine, i, j) == 0){
+				show[i][j] = ' ';
+				(*is_win)++;
+				CheckAround(mine, show ,i, j,is_win);
+			}
+		}
+	}
+	return 0;
 }
 
 int AroundMine(char mine[][COL],int x,int y){
@@ -158,11 +202,9 @@ void Mine(){
 
 	//Init(mine_board, show_board, ROW, COL);
 
-	//3、生成雷
-	CreateMine(mine_board, ROW, COL);
-
 	//测试
-	PrintBoard(mine_board, ROW, COL);
+	system("cls");
+	//PrintBoard(mine_board, ROW, COL);
 	PrintBoard(show_board, ROW, COL);
 
 	//用户输入

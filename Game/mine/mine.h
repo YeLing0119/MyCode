@@ -5,19 +5,17 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-#include <windows.h>
 
-#pragma warning (disable:4996)
 
 #define ROW 12
 #define COL 12
-#define MINE_NUM 20
+#define MINE_NUM 2
 
-//void Init(char mine[][COL], char show[][COL], int _row, int _col);
 void Click(char mine[][COL], char  show[][COL]);
 void PrintBoard(char board[][COL], int _row, int _col);
 void CreateMine(char mine[][COL], int _row, int _col);
 int AroundMine(char mine[][COL], int x, int y);
+int CheckAround(char mine[][ROW], char show[][COL], int x, int y, int *is_win);
 int GetRandomNum(int _start, int _end);
 void Mine();
 

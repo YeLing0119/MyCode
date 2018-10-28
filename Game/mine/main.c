@@ -20,6 +20,5 @@ int main(){
 		default:
 			break;
 	}
-	system("pause");
 	return 0;
 }
