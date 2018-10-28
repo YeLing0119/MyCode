@@ -12,7 +12,7 @@ int main()
 		{
 			number_9++;
 		}
-		if(count >= 90)
+		if(count / 10 == 9)
 		{
 			number_9++;
 		}
