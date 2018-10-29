@@ -120,10 +120,11 @@ char CheckWinner(){
 void RefreshSrceen(){
 	system("clear");
 	PrintBoard();
-	//sleep(2);
+	sleep(2);
 }
 
 int main(){
+	system("clear");
 	//1.初始化
 	Init();
 	while (1){

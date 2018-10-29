@@ -1,6 +1,7 @@
 ﻿#include "mine.h"
 
 void menu(){
+	system("clear");
 	printf("******************************\n");
 	printf("*****      1、扫雷       *****\n");
 	printf("*****      2、退出       *****\n");

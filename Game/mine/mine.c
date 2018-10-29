@@ -109,22 +109,9 @@ void Click(char mine[][COL], char show[][COL]){
 		if (is_win == 0){
 			mine[x][y] = 'f';
 			CreateMine(mine, ROW, COL);
-			int mine_num = AroundMine(mine, x, y);
-			if (mine_num == 0){
-				show[x][y] = ' ';
-			}
-			else{
-				show[x][y] = mine_num + '0';
-			}
-			is_win++;
-			CheckAround(mine, show, x, y, &is_win);
-			system("cls");
-			PrintBoard(mine, ROW, COL);
-			PrintBoard(show, ROW, COL);
-			continue;
 		}
 		if (show[x][y] != '*'){
-			printf("该位置已经是数字！\n");
+			printf("该位置已经是数字！\n请重新输入!\n");
 			continue;
 		}
 		if (mine[x][y] == '1'){
@@ -143,11 +130,13 @@ void Click(char mine[][COL], char show[][COL]){
 			CheckAround(mine, show, x, y, &is_win);
 		}
 		if ((100 - is_win) == MINE_NUM){		//如果条件成立，说明玩家已经赢了
-			printf("你赢了\n");
+			system("clear");
+			PrintBoard(show, ROW, COL);
+			printf("你赢了!\n");
 			break;
 		}
-		system("cls");
-		PrintBoard(mine, ROW, COL);
+		system("clear");
+		//PrintBoard(mine, ROW, COL);
 		PrintBoard(show, ROW, COL);
 	}
 }
@@ -168,10 +157,14 @@ int CheckAround(char mine[][ROW], char show[][COL], int x, int y, int *is_win){
 				continue;
 			}
 			//剩下的本身周围是没有被展开过的
-			if (AroundMine(mine, i, j) == 0){
+			int mine_count = AroundMine(mine, i, j);
+			if (mine_count == 0){
 				show[i][j] = ' ';
 				(*is_win)++;
 				CheckAround(mine, show ,i, j,is_win);
+			}else{
+				show[i][j] = mine_count + '0';
+				(*is_win)++;
 			}
 		}
 	}
@@ -203,7 +196,7 @@ void Mine(){
 	//Init(mine_board, show_board, ROW, COL);
 
 	//测试
-	system("cls");
+	system("clear");
 	//PrintBoard(mine_board, ROW, COL);
 	PrintBoard(show_board, ROW, COL);
 
