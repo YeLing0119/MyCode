@@ -19,7 +19,7 @@ void OddEven(int *_arr_ , int _len_){
 	int last = _len_ -1;
 	printf("Odd - Even\n");
 	while(first < last){
-		PrintArr(_arr_, _len_);
+	   	//PrintArr(_arr_, _len_);
 		if(_arr_[first] % 2 == 0 && _arr_[last] % 2 == 1){
 			Swap(_arr_, first, last);
 		}

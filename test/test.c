@@ -1,10 +1,13 @@
 #include <stdio.h>
 
+typedef struct student{
+	int _x ;
+	int _y ;
+}Student;
 
-int main ()
-{
-	int i;
-	i = 3+2,5+6,9+8;
-	printf("%d",i);	
+
+int main(){
+	Student p = { 1 , 2};
+	printf("%d %d \n", p);
 }
-
+	

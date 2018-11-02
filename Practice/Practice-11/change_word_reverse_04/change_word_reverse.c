@@ -19,7 +19,7 @@ void ReverseString(char* _arr_ , int _start_ , int _end_){
 int main(){
 	int word_start = 0;
 	int word_end = 0;
-	char arr[] = "student a am i";
+	char arr[] = "student a not am i";
 	int len = sizeof(arr)/sizeof(arr[0]) - 1;
 	printf("%s\n",arr);
 	ReverseString(arr,0,len - 1);
