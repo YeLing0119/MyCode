@@ -51,7 +51,7 @@ void CountYangHui(int line){
 
 int main(){
 	int line = 0;
-	printf("*********打印杨辉三角*********\n");
+	printf("******************打印杨辉三角*****************\n");
 	printf("请输入你要打印多少行：");
 	scanf("%d", &line);
 	CountYangHui(line);
