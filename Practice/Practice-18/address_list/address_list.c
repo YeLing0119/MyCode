@@ -52,6 +52,7 @@ void Delete(pConnectList Contacts , int num){
 }
 
 void AddContact(pConnectList Contacts){
+	printf("\n<<Add Contacts>>\n");
 	printf("Please Enter Contacts Name:");
 	scanf("%s", ((Contacts->Addr[Contacts->_size]).name));
 	printf("Please Enter Contacts Sex:");
@@ -68,8 +69,13 @@ void AddContact(pConnectList Contacts){
 
 
 int SearchContact(pConnectList Contacts){
+	printf("\n<<Search>>\n");
 	char Name[32];
 	int count = 0;
+	if(Contacts->_size){
+		printf("Empty List! Can't Search!\n");
+		return 0;	
+	}
 	printf("Please Enter Contact Name:");
 	scanf("%s", Name);
 	for(; count < Contacts->_size ; count++){
@@ -80,23 +86,29 @@ int SearchContact(pConnectList Contacts){
 		}
 	}
 	printf("Not Find\n");
-	return -1;
+	return count + 1;
 }
 
-void DeleteContact(pConnectList Contacts){
+int DeleteContact(pConnectList Contacts){
+	printf("\n<<Delete>>\n");
+	if(Contacts->_size){
+		printf("Empty List!");
+		return -1;
+	}
 	char choice ; 
 	int num = 0;
 	if(num = SearchContact(Contacts)){
 		printf("Are You Sure to Delete ? <Y/N>:");
-		getchar();
 		scanf("%c" , &choice);
 		if(choice == 'Y' || choice == 'y'){
 			Delete(Contacts , num - 1);
 		}
 	}
+	return 1;
 }
 
 void ModifyContact(pConnectList Contacts){
+	printf("\n<<Modify>>\n");
 	int num;
 	if(num = SearchContact(Contacts)){
 		num = num - 1;
@@ -114,8 +126,9 @@ void ModifyContact(pConnectList Contacts){
 }
 
 void DisplayAllContact(pConnectList Contacts){
+	printf("\n<<Display All>>\n");
 	int count = 0;
-	printf("Name    Sex   Age    Tel          Addr\n");
+	printf("Name  Sex  Age  Tel      Addr\n");
 	for(;count < Contacts->_size ; count++){
 		ShowContacts(Contacts , count);
 	}
@@ -124,25 +137,36 @@ void DisplayAllContact(pConnectList Contacts){
 }
 
 void EmptyContact(pConnectList Contacts){
-	Contacts->_size = 0;
-}
-
-void SortByName(pConnectList Contacts){
-	int count = 0;
-	int count_2 = 0;
-	for(; count < Contacts->_size - 2; count++){
-		for(count_2 = 0 ; count_2 < Contacts->_size - count - 3; count_2++){
-			if(strcmp(Contacts->Addr[count].name, Contacts->Addr[count + 1].name) > 0){
-				AddressList Temp;
-				memcpy(&Temp, &Contacts->Addr[count], sizeof(AddressList));
-				memcpy(&Contacts->Addr[count],&Contacts->Addr[count+1], sizeof(AddressList));
-				memcpy(&Contacts->Addr[count + 1] , &Temp , sizeof(AddressList));
-			}
-		}
+	printf("<<Empty>>\n");
+	char choice;
+	printf("Are You Sure clean ? <Y/N>");
+	scanf("%c" , &choice);
+	if(choice == 'Y' || choice == 'y'){
+		Contacts->_size = 0;
 	}
 }
 
+void SortByName(pConnectList Contacts){
+	printf("\n<<Sort By Name>>\n");
+	
+	int count = 0;
+	int count_2 = 0;
+	for(count = 0 ; count < Contacts->_size - 1; count++){
+		for(count_2 = 0 ; count_2 < Contacts->_size - count - 2; count_2++){
+			if(strcmp(Contacts->Addr[count].name, Contacts->Addr[count + 1].name) > 0){
+				AddressList Temp;
+				memcpy(&Temp, &Contacts->Addr[count_2], sizeof(AddressList));
+				memcpy(&Contacts->Addr[count_2],&Contacts->Addr[count_2 + 1], sizeof(AddressList));
+				memcpy(&Contacts->Addr[count_2 + 1] , &Temp , sizeof(AddressList));
+			}
+		}
+	}
+	printf("Sort Complete!\n");
+	DisplayAllContact(Contacts);
+}
+
 int ExportToFile(pConnectList Contacts){
+	printf("<<\nExport File>>\n");
 	int count = 0;
 	FILE* fp = fopen("myvcf.vcf","wb+");
 	if(fp == NULL){
@@ -150,10 +174,10 @@ int ExportToFile(pConnectList Contacts){
 		return -1;
 	}
 
-	fprintf(fp , "%d\n" , Contacts->_size);	
+	fprintf(fp, "%d\n" , Contacts->_size);	
 
 	for( ; count < Contacts->_size ; count++){
-		fprintf(fp,"%s  %s  %d  %s  %s\n",(Contacts->Addr[count]).name,
+		fprintf(fp,"%s %s %d %s %s\n",(Contacts->Addr[count]).name,
 			(Contacts->Addr[count]).sex,(Contacts->Addr[count]).age, 
 			(Contacts->Addr[count].tele),(Contacts->Addr[count].address));	
 	}
@@ -162,6 +186,7 @@ int ExportToFile(pConnectList Contacts){
 }
 
 int LoadToFile(pConnectList Contacts){
+	printf("\n<<Load File>>\n");
 	int count = 0;
 	
 	FILE* fp = fopen("myvcf.vcf" , "r");
@@ -173,7 +198,7 @@ int LoadToFile(pConnectList Contacts){
 	fscanf(fp , "%d\n" , &Contacts->_size);
 	
 	for(; count < Contacts->_size ; count++){
-		fscanf(fp,"%s  %s  %d  %s  %s\n",(Contacts->Addr[count]).name,
+		fscanf(fp,"%s %s %d %s %s",(Contacts->Addr[count]).name,
 			(Contacts->Addr[count]).sex,&(Contacts->Addr[count]).age, 
 			(Contacts->Addr[count].tele),(Contacts->Addr[count].address));	
 	}
@@ -215,7 +240,7 @@ int main(){
 					break;
 			case 0 : exit(0);
 					break;
-			default : printf("Your Choice Wrong , please retry\n");
+			default : printf("\nYour Choice Wrong , please retry\n\n");
 					break;
 		}
 	}
