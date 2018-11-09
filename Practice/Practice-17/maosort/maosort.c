@@ -46,10 +46,12 @@ int ComPString(const void* elem1 , const void* elem2){
 	char *_elem1 = (char *)elem1;
 	char *_elem2 = (char *)elem2;
 
-	//while(!(ret = *_elem1++ - *_elem2++) && *_elem1);
+	//printf("%s  %s \n " , _elem1 , _elem2);
+
+	while(!(ret = (*_elem1) ++ - (*_elem2)++) && (*_elem1));
 	
-	ret = strcmp(_elem1 , _elem2);
-	return ret ;
+	
+	return 0;
 }
 
 int main(){
@@ -91,7 +93,7 @@ int main(){
 	}
 	printf("\n");
 
-	MaoSort(pstr , 5 , 10 , ComPString);
+	MaoSort(pstr , 5 , 4 , ComPString);
 	
 	for(i = 0 ; i < 5 ; i++){
 		printf("%s  ", *(pstr + i));
