@@ -2,7 +2,7 @@
 #include "seqlist.h"
 #include <stdio.h>
 #include <assert.h>
-
+#include <string.h>
 
 void SeqListInit(pContact pCon, int capacity){
 	//Judge paramater legality  判断参数的合法性
@@ -41,7 +41,7 @@ void SeqListPushBack(pContact pCon , DataType data){
 			return ;	
 		}
 		pCon->AddrList = pd;
-		pCon->_capacity *= 2;
+		pCon->_capacity = 2 * pCon->_capacity;
 	}
 	//Add in Back 	在后面添加
 	pCon->AddrList[pCon->_size] = data;
@@ -60,34 +60,172 @@ void SeqListPopBack(pContact pCon){
 	printf("Delete Last One Success !\n");
 }
 
-void SeqListPushFront(pContact pCon , DataType data);
+void SeqListPushFront(pContact pCon , DataType data){
+	assert(pCon);
+	
+	if(pCon->_capacity == pCon->_size){
+		printf("Insufficient storage , Appending...\n");	//空间不足，追加中...
+		pDataType pdt = (pDataType)realloc(pCon->AddrList, 2 * pCon->_capacity * sizeof(DataType));
+		if(pdt == NULL){
+			printf("Append failure!\n");
+			perror("realloc");
+			return ;
+		}
 
-void SeqListPopFront(pContact pCon);
+		pCon->AddrList = pdt;
+		pCon->_capacity = pCon->_capacity * 2;
+	}
 
-void SeqListInster(pContact pCon , int pos , DataType data);
+	pCon->_size++;
+	int count = pCon->_size;
+	while(count > 0){
+		pCon->AddrList[count] = pCon->AddrList[count - 1];
+		count--;
+	}
 
-void SeqListErase(pContact pCon , int pos);
+	pCon->AddrList[0] = data;
+	
+}
 
-void SeqListFind(pContact pCon, DataType data);
+void SeqListPopFront(pContact pCon){
+	assert(pCon);
+	pCon->_size--;
+	int count = 0;
+	for( ; count < pCon->_size ; count++){
+		pCon->AddrList[count] = pCon->AddrList[count + 1];
+	}
+}
 
-void SeqListRemove(pContact pCon , DataType data);
+void SeqListInster(pContact pCon , int pos , DataType data){
+	assert(pCon);
+	if(pCon->_capacity == pCon->_size){
+		printf("Insufficient storage , Appending...\n");	//空间不足，追加中...
+		pDataType pdt = (pDataType)realloc(pCon->AddrList, 2 * pCon->_capacity * sizeof(DataType));
+		if(pdt == NULL){
+			printf("Append failure!\n");
+			perror("realloc");
+			return ;
+		}
+	}
+	
+	pCon->_size++;
+	int count = pCon->_size;
+	
+	while(count > pos){
+		pCon->AddrList[count] = pCon->AddrList[count - 1];
+		count--;
+	}
 
-void SeqListRemoveAll(pContact pCon , DataType data);
+	pCon->AddrList[pos] = data;
+}
 
-int SeqListSize(pContact pCon);
+void SeqListErase(pContact pCon , int pos){
+	assert(pCon);
+	assert(pos > 0);
+	
+	int count = pos;
+	pCon->_size--;
+	for(; count < pCon->_size; count++){
+		pCon->AddrList[count] = pCon->AddrList[count + 1];
+	}
+}
 
-int SeqListCapacity(pContact pCon);
+int SeqListFind(pContact pCon, char* name){
+	int count = 0;
+	
+	assert(pCon);
+	assert(name);
+	
+	for(; count < pCon->_size ; count++){
+		if(strcmp(pCon->AddrList[count].name, name)){
+			return count;
+		}
+	}
+	return 0;
+}
 
-DataType GetSeqListFirstElem(pContact pCon);
+void SeqListRemove(pContact pCon , char* name){
+	assert(pCon);
+	assert(name);
+	
+	int count = 0;
+	for(; count < pCon->_size ; count++){
+		if(strcmp(pCon->AddrList[count].name, name) == 0){
+			SeqListErase(pCon , count);
+			pCon->_size--;
+			return ;
+		}
+	}
+}
 
-DataType GetSeqListLastElem(pContact pCon);
+void SeqListRemoveAll(pContact pCon , char* name){
+	assert(pCon);
+	assert(name);
+	
+	int count = 0;
+	for(; count < pCon->_size ; count++){
+		if(strcmp(pCon->AddrList[count].name, name) == 0){
+			SeqListErase(pCon , count);
+			pCon->_size--;
+		}
+	}
+}
 
-void SeqListClear(pContact pCon);
+int SeqListSize(pContact pCon){
+	assert(pCon);
+	return pCon->_size;
+}
 
-void SeqListDestory(pContact pCon);
+int SeqListCapacity(pContact pCon){
+	assert(pCon);
+	return pCon->_capacity;
+}
 
-void CheackCapacity(pContact pCon);
+DataType GetSeqListFirstElem(pContact pCon){
+	assert(pCon);
+	return pCon->AddrList[0];
+}
 
-void BubbleSort(pContact Pcon);
+DataType GetSeqListLastElem(pContact pCon){
+	assert(pCon);
+	DataType dt = {"none" , "none" , 0 , "none" , "none"};
+	if(pCon->_size == 0){
+		printf("List is Empty! Can't get last Elem!\n");
+		return dt;
+	}
+	return pCon->AddrList[pCon->_size - 1];
+}
+
+void SeqListClear(pContact pCon){
+	assert(pCon);
+	pCon->_size = 0;	
+}
+
+void SeqListDestory(pContact pCon){
+	assert(pCon);
+	
+	free(pCon->AddrList);
+	pCon->_size = 0;
+	pCon->_capacity = 0;
+}
+
+void CheackCapacity(pContact pCon){
+
+}
+
+void BubbleSort(pContact pCon){
+	int count_row = 0;
+	int count_col = 0;
+	
+	for(count_row = 0; count_row < pCon->_size ; count_row++){
+		for(count_col = 0 ; count_col < pCon->_size - count_row - 2 ; count_col){
+			if(strcmp(pCon->AddrList[count_col].name , pCon->AddrList[count_col+1].name)){
+				DataType tmp = pCon->AddrList[count_col];
+				pCon->AddrList[count_col + 1] = pCon->AddrList[count_col];
+				pCon->AddrList[count_col] = tmp;
+			}		
+		}	
+	}		
+}
 
 

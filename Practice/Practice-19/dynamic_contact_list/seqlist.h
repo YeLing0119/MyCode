@@ -36,14 +36,14 @@ void SeqListInster(pContact pCon , int pos , DataType data);
 //删除顺序表pos位置的元素
 void SeqListErase(pContact pCon , int pos);
 
-//在顺序表中寻找值为data的元素第一次出现的位置
-void SeqListFind(pContact pCon, DataType data);
+//在顺序表中寻找name值为指定值的第一次出现的位置
+int SeqListFind(pContact pCon, char* name);
 
-//删除顺序表中值为data的元素
-void SeqListRemove(pContact pCon , DataType data);
+//删除顺序表中name值为指定值的元素
+void SeqListRemove(pContact pCon , char* name);
 
-//删除顺序表中所有值为data的元素
-void SeqListRemoveAll(pContact pCon , DataType data);
+//删除顺序表中所有name值为指定值的元素
+void SeqListRemoveAll(pContact pCon , char* name);
 
 //获取顺序表中有效元素的个数
 int SeqListSize(pContact pCon);
@@ -67,6 +67,6 @@ void SeqListDestory(pContact pCon);
 void CheackCapacity(pContact pCon);
 
 //用冒泡排序对顺序表的所有元素排序
-void BubbleSort(pContact Pcon);
+void BubbleSort(pContact pCon);
 
 #endif
