@@ -163,10 +163,38 @@ void SeqListRemoveAll(pContact pCon , char* name){
 	assert(name);
 	
 	int count = 0;
-	for(; count < pCon->_size ; count++){
-		if(strcmp(pCon->AddrList[count].name, name) == 0){
-			SeqListErase(pCon , count);
-			pCon->_size--;
+	int i = 0;
+	// 1 . 配合使用strcmp 和 SeqListErase 不推荐，调用比较复杂，效率低
+//  for(; count < pCon->_size ; count++){
+//  	if(strcmp(pCon->AddrList[count].name, name) == 0){
+//  		SeqListErase(pCon , count);
+//  		pCon->_size--;
+//  		count--;
+//  	}
+//  }
+
+	// 2 . 创建临时空间，然后拷到原来的(数据量太大时，可能也不太好)
+//  pDataType pd = (pDataType)malloc(sizeof(DataType)*pCon->_size);
+//  if(pd == NULL){
+//  	return;
+//  }
+//  int result = 0;
+//  for(i = 0 ;i < pCon->_size ; ++i){
+//  	if(pCon->AddrList[i].name != name){
+//  		*(pd + count) = pCon->AddrList[i];
+//  		count++; 
+//  	}
+//  }
+//  
+//  memcpy(pCon->AddrList,pd,sizeof(DataType)*(count-1));
+//  free(pd);
+	
+	// 3 . 比较好，比较高效
+	for(i = 0 ; i < pCon->_size; ++i){
+		if(strcmp(pCon->AddrList[i].name,name) == 0){
+			pCon->AddrList[i - count] = pCon->AddrList[i];
+		}else{
+			count++;
 		}
 	}
 }
@@ -217,8 +245,8 @@ void BubbleSort(pContact pCon){
 	int count_row = 0;
 	int count_col = 0;
 	
-	for(count_row = 0; count_row < pCon->_size ; count_row++){
-		for(count_col = 0 ; count_col < pCon->_size - count_row - 2 ; count_col){
+	for(count_row = 0; count_row < pCon->_size - 1; count_row++){
+		for(count_col = 0 ; count_col < pCon->_size - count_row - 1; count_col){
 			if(strcmp(pCon->AddrList[count_col].name , pCon->AddrList[count_col+1].name)){
 				DataType tmp = pCon->AddrList[count_col];
 				pCon->AddrList[count_col + 1] = pCon->AddrList[count_col];
