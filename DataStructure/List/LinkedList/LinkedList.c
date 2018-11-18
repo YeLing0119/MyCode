@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
-#include <windows.h>
 
 LinkNode* CreatNode(DataType data){
 	LinkNode* pNewNode = (LinkNode*)malloc(sizeof(LinkNode));
@@ -37,12 +36,12 @@ void LinkListPushBack(LinkNode** pFir, DataType data){
 	//}
 
 	if (*pFir == NULL){
-		//1 . ¿ÕÁ´±í²åÈë
+		//1 . ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		printf("Kong Insert Back\n");
 		*pFir = pNewNode;
 
 	}else{
-		//2 . ÖÁÉÙÓÐ1¸öÔªËØ²åÈë
+		//2 . ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½Ôªï¿½Ø²ï¿½ï¿½ï¿½
 		LinkNode* lp = *pFir;
 		printf("Fei Kong Insert Back\n");
 		while (lp->_pNext != NULL){
@@ -55,10 +54,10 @@ void LinkListPushBack(LinkNode** pFir, DataType data){
 void LinkListPopBack(LinkNode** pFir){
 	assert(pFir);
 	
-	if (*pFir == NULL){	//¿ÕÁ´±í
+	if (*pFir == NULL){	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		printf("Empty List\n");
 		return;
-	}else if((*pFir)->_pNext == NULL){					//Ö»ÓÐÒ»¸öÔªËØµÄÁ´±í
+	}else if((*pFir)->_pNext == NULL){					//Ö»ï¿½ï¿½Ò»ï¿½ï¿½Ôªï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½
 		free((*pFir));
 		*pFir = NULL;
 	}else{
@@ -76,14 +75,14 @@ void LinkListPopBack(LinkNode** pFir){
 void LinkListPushFront(LinkNode** pFir, DataType data){
 	assert(pFir);
 
-	//if (*pFir == NULL){		//¿ÕÁ´±í
+	//if (*pFir == NULL){		//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	//	LinkNode* pNewNode = CreatNode(data);
 	//	if (pNewNode == NULL){
 	//		printf("Creat Failure\n");
 	//		return ;
 	//	}
 	//	*pFir = pNewNode;
-	//}else{		//·Ç¿ÕÁ´±í
+	//}else{		//ï¿½Ç¿ï¿½ï¿½ï¿½ï¿½ï¿½
 		LinkNode* pNewNode = CreatNode(data);
 		//if (pNewNode == NULL){
 		//	printf("Creat Failure\n");
@@ -123,7 +122,7 @@ void LinkListInsert(LinkNode* pos, DataType data){
 	if (pos == NULL) return;
 	LinkNode* pNewNode = CreatNode(data);
 	if (pNewNode == NULL){
-		printf("error :¡¡Creat Failure\n");
+		printf("error :ï¿½ï¿½Creat Failure\n");
 		return;
 	}
 	pNewNode->_pNext = pos->_pNext;
@@ -241,7 +240,7 @@ void LinkListRemoveAll(LinkNode** pFir, DataType data){
 
 //Test
 void Test(){
-	LinkNode* pFirst;	//´´½¨Ö¸ÏòµÚÒ»¸ö½ÚµãµÄÖ¸Õë
+	LinkNode* pFirst;	//ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Úµï¿½ï¿½Ö¸ï¿½ï¿½
 	LinkListInit(&pFirst);
 	printf("Linked List Size = %d \n", LinkListSize(pFirst));
 	LinkListPushBack(&pFirst, 1);
