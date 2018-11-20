@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 typedef int DataType;
 
@@ -19,10 +19,12 @@ void ListPopBack(CHList* CList);
 void ListPushFront(CHList* CList, DataType data);
 void ListPopFront(CHList* CList);
 CListNode* ListFind(CHList* CList, DataType data);
+
 // 在pos的前面进行插入
-void ListInsert(CHList* pos, DataType data);
+void ListInsert(CHList* CList, CListNode* pos, DataType data);
 // 删除pos位置的节点
-void ListErase(CHList* pos);
+void ListErase(CHList* CList, CListNode* pos);
+
 void ListRemove(CHList* CList, DataType data);
 void ListPrint(CHList* CList);
 
