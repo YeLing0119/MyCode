@@ -21,6 +21,14 @@ void cheak()
 	if (stack_bracket[stack_point - 1] == '}'||stack_bracket[stack_point - 2] == '{'){
 		pop(); pop();
 	}
+
+	if (stack_bracket[stack_point - 1] == ')'||stack_bracket[stack_point - 2] == '('){
+		pop(); pop();
+	}
+
+	if (stack_bracket[stack_point - 1] == ']'||stack_bracket[stack_point - 2] == '['){
+		pop(); pop();
+	}
 }
 
 int main(){
@@ -36,11 +44,11 @@ int main(){
 	//检测括号匹配
 	for (int i = 0; i < count; i++)
 	{
-		if (code[i] == '{'){
-			push('{'); 
+		if (code[i] == '{' || code[i] == '(' || code[i] == '['){
+			push(code[i]); 
 		}
-		if (code[i] == '}'){
-			push('}');
+		if (code[i] == '}' || code[i] == ')' || code[i] == ']'){
+			push(code[i]);
 			cheak();
 		}
 	}
