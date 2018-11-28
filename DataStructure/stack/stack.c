@@ -1,6 +1,6 @@
 #include "stack.h"
 #include <stdio.h>
-
+#include <stdlib.h>
 void StackInit(Stack *pStack, int size){
     pStack->_pArray = (SDataType*)malloc(sizeof(SDataType)*size);
 
@@ -11,20 +11,20 @@ void StackInit(Stack *pStack, int size){
 void StackPush(Stack *pStack, SDataType data){
     if(pStack->_pArray == NULL){
         printf("UnInit Stack\n");
-        return 0;
+        return;
     }
 
     if(pStack->_capitity == pStack->_top){
         printf("Stack Full, realloc....\n");
-
-        SDataType *pA = realloc(pStack->_pArray , sizeof(SDataType)*pStack->_capitity*2);
+        SDataType *pA = (SDataType*)realloc(pStack->_pArray , sizeof(SDataType)*pStack->_capitity*2);
+        pStack->_capitity *= 2;
     }
 
     pStack->_pArray[pStack->_top] = data;
     pStack->_top++;
 }
 
-void StachPop(Stack *pStack){
+void StackPop(Stack *pStack){
     if(pStack->_top == 0){
         printf("Empty Stack\n");
         return;
@@ -32,16 +32,16 @@ void StachPop(Stack *pStack){
     pStack->_top--;
 }
 
-SDataType* StackTop(Stack* pStack){
+SDataType StackTop(Stack* pStack){
     if(pStack->_top == 0){
-        printf("Empty Stack");
+        printf("Empty Stack\n");
         return NULL;
     }   
 
     return pStack->_pArray[pStack->_top - 1];
 }
 
-void StackEmpty(Stack* pStack){
+int StackEmpty(Stack* pStack){
     return pStack->_top == 0;
 }
 
@@ -52,4 +52,46 @@ void StackDestory(Stack* pStack){
     pStack->_top = 0;
 }
 
-void test();
+void test(){
+    Stack Sta;
+
+    StackInit(&Sta, 5);
+
+    StackPush(&Sta, 1);
+    StackPush(&Sta, 2);
+    StackPush(&Sta, 3);
+    StackPush(&Sta, 4);
+    StackPush(&Sta, 5);
+
+    printf("%d  ", StackTop(&Sta));
+    StackPop(&Sta);
+
+    printf("%d  ", StackTop(&Sta));
+    StackPop(&Sta);
+    
+    printf("%d  \n", StackTop(&Sta));
+    StackPop(&Sta);
+
+    printf("Empty : %d  \n" , StackEmpty(&Sta));
+    
+    printf("%d  ", StackTop(&Sta));
+    StackPop(&Sta);
+    
+    printf("%d  \n", StackTop(&Sta));
+    StackPop(&Sta);
+
+    printf("NULL : %d  \n" , StackTop(&Sta));
+    StackPop(&Sta);
+
+    printf("Empty : %d  \n" , StackEmpty(&Sta));
+
+    StackPush(&Sta , 1);
+    StackPush(&Sta , 2);
+    StackPush(&Sta , 3);
+    StackPush(&Sta , 4);
+    StackPush(&Sta , 5);
+    StackPush(&Sta , 6);
+
+    printf("%d  \n" , StackTop(&Sta));
+    printf("Capitity : %d  \n" , Sta._capitity);
+}

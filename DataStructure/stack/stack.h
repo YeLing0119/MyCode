@@ -15,9 +15,9 @@ void StackPush(Stack *pStack, SDataType data);
 // 出栈
 void StachPop(Stack *pStack);
 // 获取栈顶元素
-SDataType* StackTop(Stack* pStack);
+SDataType StackTop(Stack* pStack);
 // 栈判空
-void StackEmpty(Stack* pStack);
+int StackEmpty(Stack* pStack);
 // 栈销毁
 void StackDestory(Stack* pStack);
 
