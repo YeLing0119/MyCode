@@ -1,7 +1,11 @@
 #include "stack.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
+
 void StackInit(Stack *pStack, int size){
+    assert(pStack);
+
     pStack->_pArray = (SDataType*)malloc(sizeof(SDataType)*size);
 
     pStack->_capitity = size;
@@ -9,6 +13,8 @@ void StackInit(Stack *pStack, int size){
 }
 
 void StackPush(Stack *pStack, SDataType data){
+    assert(pStack);
+
     if(pStack->_pArray == NULL){
         printf("UnInit Stack\n");
         return;
@@ -25,6 +31,8 @@ void StackPush(Stack *pStack, SDataType data){
 }
 
 void StackPop(Stack *pStack){
+    assert(pStack);
+    
     if(pStack->_top == 0){
         printf("Empty Stack\n");
         return;
@@ -33,6 +41,8 @@ void StackPop(Stack *pStack){
 }
 
 SDataType StackTop(Stack* pStack){
+    assert(pStack);
+    
     if(pStack->_top == 0){
         printf("Empty Stack\n");
         return NULL;
@@ -42,10 +52,13 @@ SDataType StackTop(Stack* pStack){
 }
 
 int StackEmpty(Stack* pStack){
+    assert(pStack);
     return pStack->_top == 0;
 }
 
 void StackDestory(Stack* pStack){
+    assert(pStack);
+
     free(pStack->_pArray);
 
     pStack->_capitity = 0;
