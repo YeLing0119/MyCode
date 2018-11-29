@@ -6,13 +6,20 @@
 
 void CheckCapitity(Heap *pH){
     assert(pH);
-    if(){
-
+    if(pH->_capitity == pH->_size){
+        HDataType* pNew = (HDataType*)realloc(pH->_pArray, sizeof(HDataType)*pH->_capitity*2);
+        if(pNew == NULL){
+            printf("Realloc Failure : ");
+            perror("realloc");
+            return;
+        }
+        pH->_pArray = pNew;
+        pH->_capitity *= 2;
     }
 }
 
 void HeapSwap(HDataType* pam1, HDataType* pam2){
-    int temp = *pam1;
+    HDataType temp = *pam1;
     *pam1 = *pam2;
     *pam2 = temp;
 }
@@ -61,13 +68,16 @@ void HeapInit(Heap *pH, HDataType *Arr, int size){
 
 void HeapInstert(Heap *pH, HDataType data){
     assert(pH);
-    CheckCapitity(*pH);
+    CheckCapitity(pH);
 
     pH->_pArray[pH->_size++] = data;
 
     HeapSwap(&pH->_pArray[0], &pH->_pArray[pH->_size - 1]);
 
-    AdjustDown(pH, 0 ,pH->_size);
+    int root = (pH->_size-2)/2;
+    for(; root >= 0; --root){
+        AdjustDown(pH, root, pH->_size);
+    }
 }
 
 void HeapErase(Heap *pH){
