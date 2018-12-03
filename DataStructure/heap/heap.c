@@ -157,14 +157,60 @@ void HeapDestory(Heap *pH){
     pH->_size = 0;
 }
 
+
+void HeapAdjustDown(HDataType *Arr, int root, int size){
+    int parent = root;
+    int child = parent * 2 + 1;
+
+    while(child < size){
+        if(child + 1 < size && Arr[child + 1] > Arr[child]){
+            child += 1;
+        }
+
+        if(Arr[parent] < Arr[child]){
+            HeapSwap(&Arr[parent], &Arr[child]);
+
+            parent = child;
+            child = parent * 2 + 1;
+        }else{
+            return;
+        }
+    }
+}
+
+
+HDataType* HeapSort(HDataType *array, int size){
+    //升序 ---> 大堆
+    //降序 ---> 小堆
+    //1. 建堆
+    int root = (size - 2) / 2;
+    for(; root >= 0; --root){
+        HeapAdjustDown(array, root, size);
+    }
+
+    for(int i = 0 ; i < 10 ; i++){
+        printf("%d  ", array[i]);
+    }
+    printf("\n");
+
+    //2. 堆排序
+    int end = size - 1;
+    while(end){
+        //交换堆顶和堆中最后一个元素
+        HeapSwap(&array[0], &array[end]);
+        //堆顶向下调整
+        HeapAdjustDown(array, 0 , end--);
+    }
+}
+
 void test(){
     Heap pH;
-    HDataType arr[] = {9,8,7,6,5,4,3,2,1,0};
-    //HeapInit(&pH, arr, sizeof(arr)/sizeof(arr[0]), Greater);  //小堆
+    HDataType arr[] = {9, 8, 7, 6, 5, 4, 3, 2, 1};
+    HeapInit(&pH, arr, sizeof(arr)/sizeof(arr[0]), Greater);  //小堆
     HeapInit(&pH, arr, sizeof(arr)/sizeof(arr[0]), Less);       //大堆
     PrintHeap(&pH);
 
-    printf("Size:%d\n", HeapSize(&pH));
+    printf("Size):%d\n", HeapSize(&pH));
     printf("Top:%d\n", HeapTop(&pH));
     printf("Empty:%d\n", HeapEmpty(&pH));
 

@@ -25,6 +25,8 @@ HDataType HeapTop(Heap *pH);
 
 int HeapSize(Heap *pH);
 
+HDataType* HeapSort(int *array, int size);
+
 int HeapEmpty(Heap *pH);
 
 void HeapDestory(Heap *pH);
