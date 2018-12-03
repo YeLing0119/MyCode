@@ -3,17 +3,27 @@
 
 typedef int HDataType;
 
+typedef int (*PF)(HDataType left, HDataType right);
+
 typedef struct Heap{
     HDataType* _pArray;
     int _capitity;
     int _size;
+    PF pCom;
 }Heap;
 
-void HeapInit(Heap *pH, HDataType *Arr, int size);
+int Greater(HDataType left, HDataType right);
+int Less(HDataType left, HDataType right);
 
-void HeapInstert(Heap *pH, HDataType data);
+void HeapInit(Heap *pH, HDataType *Arr, int size, PF pCom);
+
+void HeapInsert(Heap *pH, HDataType data);
 
 void HeapErase(Heap *pH);
+
+HDataType HeapTop(Heap *pH);
+
+int HeapSize(Heap *pH);
 
 int HeapEmpty(Heap *pH);
 
