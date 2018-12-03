@@ -34,8 +34,8 @@ int main(){
             ptr++;
         }
 
-        printf("Cmd : [%s] \n" , argv[0]);
-        for(int i = 1 ;i <= argc ; i++){
+        printf("Cmd : [%s] " , argv[0]);
+        for(int i = 1 ;i < argc ; i++){
             printf("[%s]",argv[i]);
         }
 

@@ -1,4 +1,4 @@
 MiniShell:minishell.c
-	gcc $^ -o $@
+	gcc $^ -o $@ -std=c99
 clean:
 	rm MiniShell
