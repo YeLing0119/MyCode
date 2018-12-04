@@ -6,6 +6,7 @@
 #include <sys/types.h>
 #include <wait.h>
 #include <ctype.h>
+#include <fcntl.h>
 
 int main(){
     while(1){
@@ -18,10 +19,18 @@ int main(){
         if(scanf("%[^\n]%*c", cmd) != 1){
             getchar();
         }
+        //解析是否有重定向　< <<
+        
+
+
         char *ptr = cmd;
         char *argv[32] = {NULL};
         int argc = 0;
+        //|| *ptr != '>'
         while(*ptr != '\0'){
+            if(*ptr == '>'){
+                break;
+            }
             if(!isspace(*ptr)){
                 argv[argc++] = ptr;
                 while(!isspace(*ptr) && *ptr != '\0'){
@@ -34,6 +43,8 @@ int main(){
             ptr++;
         }
 
+        printf("Before fork : %c\n", ptr);
+
         printf("Cmd : [%s] " , argv[0]);
         for(int i = 1 ;i < argc ; i++){
             printf("[%s]",argv[i]);
@@ -44,7 +55,54 @@ int main(){
         pid_t pid = fork();
 
         if(pid == 0){
+
+            printf("This is child　１　\n");
+            //char *ptr = cmd;
+            int redirect_flag = -1;
+            char *file = NULL;
+            while(*ptr != '\0'){
+                if(*ptr == '>'){
+                    *ptr++ = '\0';
+                    redirect_flag = 1;
+                    if(*ptr == '>'){
+                        *ptr = '\0';
+                        redirect_flag = 2;
+                    }
+
+                    while(*ptr != '\0' && isspace(*ptr)){
+                        ptr++;
+                    }
+
+                    file = ptr;
+                    while(*ptr != '\0' && isspace(*ptr)){
+                        ptr++;
+                    }
+                    *ptr = '\0'; 
+                }
+                ptr++;
+            }
+
+            printf("File Name : %s\n", file);
+
+            int fd;
+
+            if(redirect_flag == 1){
+                fd = open(file, O_CREAT|O_TRUNC|O_WRONLY, 0664);
+                dup2(fd,1);
+            }
+
+            if(redirect_flag == 2){
+                fd = open(file, O_CREAT|O_APPEND|O_WRONLY, 0664);
+                dup2(fd,1);
+            }
+
+            printf("Rediret : %d   fd : %d\n" , redirect_flag, fd);
             execvp(argv[0],argv);
+            
+            if(fd >= 0){
+                close(fd);
+                fd = -1;
+            }
         }else if (pid > 0){
             wait(NULL);
         }else{
