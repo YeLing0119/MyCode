@@ -95,14 +95,15 @@ void PrintBoard(char board[][COL], int _row, int _col){
 
 void Click(char mine[][COL], char show[][COL]){
 	//int count_input = 0;		//记录用户正确输入的次数
+	char string[1024];
 	int is_win = 0;		//记录没有踩到雷的个数
 	int x = 0;
 	int y = 0;
-	while (1){
+	while (1){	
 		scanf("%d %d", &x, &y);
+		gets(&string);
 		if (x < 1 || x > 10 || y < 1 || y > 10){
 			printf("你的输入有误,请重新输入：\n");
-			fflush(stdin);
 			continue;
 		}
 		fflush(stdin);

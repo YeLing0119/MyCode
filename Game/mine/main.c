@@ -11,15 +11,20 @@ void menu(){
 
 int main(){
 	int select = 0;
+	char string[1024];
 	menu();
-	scanf("%d", &select);
+	ss:scanf("%d", &select);
+	gets(string);
 	switch (select){
 		case 1: Mine();
 			break;
 		case 2:exit(0);
 			break;
 		default:
-			break;
+			{
+				printf("输入错误，重新输入 \n");
+				goto ss;
+			}		
 	}
 	return 0;
 }
