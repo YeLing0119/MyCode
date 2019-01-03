@@ -12,7 +12,8 @@
  *			3. 自己编写该信号的处理函数
  *
  *	返回值:
- *		返回上一次的处理函数
+ *		成功: 返回上一次的处理函数
+ *		失败: SIG_ERR
  */
 
 #include <stdio.h>
@@ -20,21 +21,22 @@
 #include <unistd.h>
 #include <signal.h>
 #include <sys/types.h>
+
 void int_handle(int signo){
-	printf("I Got A Signal %d \n", signo);
+    printf("I Got A Signal %d \n", signo);
 }
 
 int main(){
-	typedef void (*sighandler_t)(int);	
-	//sighandler_t old = signal(SIGINT, SIG_IGN);		// 该信号将被忽略，现象就是Ctrl + C 无法使程序中断
-	//sighandler_t old = signal(SIGINT, SIG_DFL);	// 使用该信号的默认处理方式
-	sighandler_t old = signal(SIGINT, int_handle);	// 使用自定义的信号处理方式
-	if(old == SIG_DFL){
-		printf("---------------------------------\n");
-		sleep(2);
-	}
-	while(1){
-		printf("Sleeping...\n");
-		sleep(1);
-	}
+    typedef void (*sighandler_t)(int);	
+    //sighandler_t old = signal(SIGINT, SIG_IGN);		// 该信号将被忽略，现象就是Ctrl + C 无法使程序中断
+    //sighandler_t old = signal(SIGINT, SIG_DFL);	// 使用该信号的默认处理方式
+    sighandler_t old = signal(SIGINT, int_handle);	// 使用自定义的信号处理方式
+    if(old == SIG_DFL){
+        printf("---------------------------------\n");
+        sleep(2);
+    }
+    while(1){
+        printf("Sleeping...\n");
+        sleep(1);
+    }
 }
