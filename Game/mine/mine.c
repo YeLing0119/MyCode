@@ -11,7 +11,7 @@ void CreateMine(char mine[][COL], int _row, int _col){
 	int number = MINE_NUM;
 	while (number){
 		row = GetRandomNum(1, _col - 2);
-		col = GetRandomNum(1, _col - 2);
+		col = GetRandomNum(1, _row - 2);
 		//printf("row = %d  col =%d\n", row, col);
 		if (mine[row][col] == '0'){
 			mine[row][col] = '1';
@@ -24,20 +24,20 @@ void CreateMine(char mine[][COL], int _row, int _col){
 void PrintBoard(char board[][COL], int _row, int _col){
 	printf("   ");
 	for (int i = 1; i < 11; i++){
-		printf("   %d   ", i);
+		printf("   %d    ", i);
 	}
 	printf("\n");
 	printf("  ");
 	for (int i = 0; i < 10; i++){
 		if (i == 0){
-			printf("┌──────┬");
+			printf("┌───────┬");
 			continue;
 		}
 		if (i == 9){
-			printf("──────┐");
+			printf("───────┐");
 			continue;
 		}
-		printf("──────┬");
+		printf("───────┬");
 	}
 	printf("\n");
 	for (int i = 1; i <= _row - 2; i++){
@@ -45,7 +45,7 @@ void PrintBoard(char board[][COL], int _row, int _col){
 			if (count == 0){
 				printf("  │");
 			}
-			printf("      │");
+			printf("       │");
 		}
 		printf("\n");
 		printf("%2d", i);
@@ -53,41 +53,41 @@ void PrintBoard(char board[][COL], int _row, int _col){
 			if (j == 1){
 				printf("│");
 			}
-			printf("   %c  │", board[i][j]);
+			printf("   %c   │", board[i][j]);
 		}
 		printf("\n");
 		for (int count = 0; count < 10; count++){
 			if (count == 0){
 				printf("  │");
 			}
-			printf("      │");
+			printf("       │");
 		}
 		printf("\n");
 		if (i != 10){
 			for (int j = 0; j < 10; j++){
 				if (j == 0){
-					printf("  ├──────┼");
+					printf("  ├───────┼");
 					continue;
 				}
 				if (j == 9){
-					printf("──────┤");
+					printf("───────┤");
 					continue;
 				}
-				printf("──────┼");
+				printf("───────┼");
 			}
 			printf("\n");
 		}
 	}
 	for (int i = 0; i < 10; i++){
 		if (i == 0){
-			printf("  └──────┴");
+			printf("  └───────┴");
 			continue;
 		}
 		if (i == 9){
-			printf("──────┘");
+			printf("───────┘");
 			continue;
 		}
-		printf("──────┴");
+		printf("───────┴");
 	}
 	printf("\n");
 	printf("请输入要点击的坐标<1~10>:\n");
@@ -101,7 +101,7 @@ void Click(char mine[][COL], char show[][COL]){
 	int y = 0;
 	while (1){	
 		scanf("%d %d", &x, &y);
-		gets(&string);
+		fgets(string, 1024, stdin);
 		if (x < 1 || x > 10 || y < 1 || y > 10){
 			printf("你的输入有误,请重新输入：\n");
 			continue;
@@ -143,7 +143,6 @@ void Click(char mine[][COL], char show[][COL]){
 }
 
 int CheckAround(char mine[][ROW], char show[][COL], int x, int y, int *is_win){
-	int mine_num = -1;
 	if (x < 1 || x>10 || y < 1 || y > 10){
 		return 0;
 	}

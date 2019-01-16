@@ -9,7 +9,7 @@
 
 #define ROW 12
 #define COL 12
-#define MINE_NUM 10
+#define MINE_NUM 20
 
 void Click(char mine[][COL], char  show[][COL]);
 void PrintBoard(char board[][COL], int _row, int _col);

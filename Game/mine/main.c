@@ -14,7 +14,7 @@ int main(){
 	char string[1024];
 	menu();
 	ss:scanf("%d", &select);
-	gets(string);
+    fgets(string, 1024, stdin);
 	switch (select){
 		case 1: Mine();
 			break;
